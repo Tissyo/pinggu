@@ -6,15 +6,20 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 900,
-    titleBarStyle: 'hiddenInset',
+    title: "见己 · 深度临床心理评估系统",
+    titleBarStyle: 'hiddenInset', // Mac 风格的隐藏标题栏，保留交通灯按钮
+    show: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     }
   });
 
-  // 加载 index.html
   win.loadFile('index.html');
+
+  win.once('ready-to-show', () => {
+    win.show();
+  });
 }
 
 app.whenReady().then(() => {

@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
-import { AssessmentState } from '../types';
-import RadarChart from './RadarChart';
+import { AssessmentState } from '../types.ts';
+import RadarChart from './RadarChart.tsx';
 
 interface Props {
   data: AssessmentState;
@@ -34,11 +34,8 @@ const SummarySection: React.FC<Props> = ({ data, onChange }) => {
       f = getScore(res.teen.scores, ['5', '6', '7', '8'], 5, 1);
       s = getScore(res.teen.scores, ['9', '10', '11', '12'], 5, 1);
     } else if (age >= 18) {
-      // Adult: CD-RISC (0-4)
-      // Fix: Use explicitly typed reduce generic to ensure cdScore is treated as a number in arithmetic operations.
       const cdScore = Object.values(res.adult.cdrisc).reduce<number>((acc: number, cur: any) => acc + (Number(cur) || 0), 0);
       p = (cdScore / 40) * 100;
-      // MSPSS: (1-7)
       f = getScore(res.adult.mspss, ['3', '4', '8', '11'], 7, 1);
       const socialIds = ['1', '2', '6', '7', '9', '10', '12'];
       s = getScore(res.adult.mspss, socialIds, 7, 1);
@@ -60,7 +57,7 @@ const SummarySection: React.FC<Props> = ({ data, onChange }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-4 bg-slate-50 border border-slate-200 rounded-3xl p-8 flex flex-col items-center justify-center shadow-inner">
-          <h3 className="text-xs font-bold text-slate-500 mb-8 uppercase tracking-widest">资源与保护因素分布图 (数字化画像)</h3>
+          <h3 className="text-xs font-bold text-slate-500 mb-8 uppercase tracking-widest">资源与保护因素分布图</h3>
           <RadarChart data={radarData} size={300} />
           <div className="mt-10 grid grid-cols-3 gap-6 w-full text-center">
             {radarData.map(d => (
@@ -81,44 +78,6 @@ const SummarySection: React.FC<Props> = ({ data, onChange }) => {
               className="w-full h-80 border border-slate-300 rounded-2xl p-6 focus:ring-2 focus:ring-teal-500 outline-none leading-relaxed text-slate-700 bg-white shadow-sm"
               placeholder="请描述症状表现、风险等级及资源分析..."
             />
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <label className="block text-sm font-bold text-slate-600 mb-3 uppercase tracking-wider">2. 核心需求与目标</label>
-          <textarea 
-            value={data.summary.needs}
-            onChange={(e) => handleChange('needs', e.target.value)}
-            className="w-full h-32 border border-slate-300 rounded-xl p-4 text-sm focus:ring-2 focus:ring-teal-500 outline-none shadow-sm"
-            placeholder="列出关键需求..."
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-bold text-slate-600 mb-3 uppercase tracking-wider">3. 下一步行动计划</label>
-          <textarea 
-            value={data.summary.actionPlan}
-            onChange={(e) => handleChange('actionPlan', e.target.value)}
-            className="w-full h-32 border border-slate-300 rounded-xl p-4 text-sm focus:ring-2 focus:ring-teal-500 outline-none shadow-sm"
-            placeholder="干预频率、流派及转介建议..."
-          />
-        </div>
-      </div>
-
-      <div className="mt-16 pt-12 border-t border-slate-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-          <div className="space-y-4">
-            <div className="h-0.5 bg-slate-300 w-full mb-6"></div>
-            <p className="text-sm font-bold text-slate-500">来访者/监护人 (Client/Guardian)</p>
-          </div>
-          <div className="space-y-4">
-            <div className="h-0.5 bg-slate-300 w-full mb-6"></div>
-            <p className="text-sm font-bold text-slate-500">主评估师 (Clinician)</p>
-          </div>
-          <div className="space-y-4">
-            <div className="h-0.5 bg-slate-300 w-full mb-6"></div>
-            <p className="text-sm font-bold text-slate-500">档案审核人 (Supervisor)</p>
           </div>
         </div>
       </div>

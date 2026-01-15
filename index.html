@@ -13,15 +13,14 @@
     <link rel="icon" href="https://api.iconify.design/ri:psychotherapy-fill.svg?color=%230d9488" type="image/svg+xml">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Babel standalone 用于在浏览器中实时编译 TSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
     <script>
-        // 浏览器环境兼容层：模拟 Node.js 的 process.env
-        // 确保代码在没有构建工具的纯浏览器环境下也能正常运行
-        window.process = {
-            env: {
-                API_KEY: "" 
-            }
-        };
+        // 兼容层
+        window.process = { env: { API_KEY: "" } };
     </script>
+    
     <style>
         @media print {
             .no-print { display: none !important; }
@@ -34,24 +33,29 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Custom scrollbar for web */
+        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
-<script type="importmap">
+
+    <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.36.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react": "https://esm.sh/react@19.0.0?dev",
+    "react-dom": "https://esm.sh/react-dom@19.0.0?dev",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client?dev",
+    "@google/genai": "https://esm.sh/@google/genai",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
 </head>
 <body>
     <div id="root"></div>
+    <!-- 显式加载入口文件，并标记为 text/babel 以便编译 -->
+    <script type="text/babel" data-type="module" src="index.tsx"></script>
 </body>
 </html>
